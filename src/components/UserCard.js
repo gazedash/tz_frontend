@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from "react";
 import styled from "styled-components";
+import {A} from "./Common";
 // geo: lat, lng
 const Address = ({ item: { street, suite, city, zipcode, geo } }) => (
   <Name>
@@ -41,19 +42,11 @@ const H5 = styled.h5`
 const Attr = styled.span`
   font-weight: normal;
 `;
-const A = styled.a`
- text-decoration: none; 
-`
 const UserCard = ({
-  onClick,
+  onClick = t => console.log(t),
   item: { id, name, username, email, address, phone, website, company }
 }) => (
-  <Card
-    onClick={e => id => {
-      e.stopPropagation();
-      onClick(id);
-    }}
-  >
+  <Card onClick={onClick}>
     <Name>
       <H5>{name}</H5> <H6>{username}</H6>
     </Name>
