@@ -1,9 +1,13 @@
 // @flow
 import React, { Component } from "react";
-import { A } from "./Common";
+import { Card } from "./Common";
 import { withRouter } from "react-router-dom";
 import * as R from "ramda"
 
+const AlbumCard = Card.extend`
+  font-size: 20px;
+  padding: 15px;
+`;
 class UserAlbums extends Component {
   static defaultProps = {
     items: [],
@@ -20,16 +24,13 @@ class UserAlbums extends Component {
       <div>
         Albums
         {this.props.items.map(({ id, title, userId }) => (
-          <A
+          <AlbumCard
             onClick={() => this.props.onClick(id)}
             key={id}
             href={"/thumb/" + id}
           >
             <div>{title}</div>
-            <div>
-              {id} {userId}
-            </div>
-          </A>
+          </AlbumCard>
         ))}
       </div>
     );
