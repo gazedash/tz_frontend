@@ -49,7 +49,7 @@ const Attr = styled.span`
   font-weight: normal;
 `;
 const UserCard = ({
-  onClick = t => console.log(t),
+  onClick = () => {},
   item: { id, name, username, email, address, phone, website, company }
 }) => (
   <Card onClick={onClick}>
