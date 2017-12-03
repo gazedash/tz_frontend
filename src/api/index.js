@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-useless-concat */
 const getUsers = () => {
   return fetch(actions.ENDPOINT + "/users")
     .then(response => response.json())
