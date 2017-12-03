@@ -3,7 +3,6 @@
 const getUsers = () => {
   return fetch(actions.ENDPOINT + "/users")
     .then(response => response.json())
-    .then(data => { console.log(data); return data})
     .catch(error => {
       throw new Error(error);
     });
