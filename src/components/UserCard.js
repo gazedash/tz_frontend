@@ -1,7 +1,7 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-import { A } from "./Common";
+import { A, Card as CardDefault } from "./Common";
 // geo: lat, lng
 const Address = ({
   item: { street = "", suite = "", city = "", zipcode = "", geo = {} } = {}
@@ -27,14 +27,9 @@ const Company = ({ item: { name = "", catchPhrase = "", bs = "" } = {} }) => (
     <H6>{bs}</H6>
   </Name>
 );
-const Card = styled.div`
-  display: flex;
+const Card = CardDefault.extend`
+  color: black;
   flex-direction: column;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.5s;
-  &:hover {
-		background-color: #eee;
-	}
 `;
 const Name = styled.div`
   display: flex;
