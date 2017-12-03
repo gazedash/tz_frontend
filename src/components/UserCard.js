@@ -1,9 +1,11 @@
 // @flow
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
-import {A} from "./Common";
+import { A } from "./Common";
 // geo: lat, lng
-const Address = ({ item: { street, suite, city, zipcode, geo } }) => (
+const Address = ({
+  item: { street = "", suite = "", city = "", zipcode = "", geo = {} } = {}
+}) => (
   <Name>
     <H6>
       <Attr>address: </Attr>
@@ -15,7 +17,7 @@ const Address = ({ item: { street, suite, city, zipcode, geo } }) => (
     {/* JSON.stringify(geo) */}
   </Name>
 );
-const Company = ({ item: { name, catchPhrase, bs } }) => (
+const Company = ({ item: { name = "", catchPhrase = "", bs = "" } = {} }) => (
   <Name>
     <H6>
       <Attr>company: </Attr>
@@ -29,6 +31,10 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.5s;
+  &:hover {
+		background-color: #eee;
+	}
 `;
 const Name = styled.div`
   display: flex;
