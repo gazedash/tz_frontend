@@ -18,9 +18,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "firebase-tools": "^3.15.4",
     "flow-bin": "^0.59.0"
   }
 }
