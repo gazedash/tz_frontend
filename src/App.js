@@ -1,18 +1,37 @@
 // @flow
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import UserList from "./components/UserList";
 import UserAlbums from "./components/UserAlbums";
 import UserPhotos from "./components/UserPhotos";
 import { Route, withRouter, Switch } from "react-router-dom";
 import { LinkStyled as Link } from "./components/Common";
+import { connect } from "react-redux";
+import actions from "./store/actions";
 import "./App.css";
 
 class App extends Component {
-  cardClick = Sid => {
-    const id = 10;
-    this.props.history.push("album/" + id);
+  static defaultProps = {
+    users: [],
+    photos: [],
+    albums: []
   };
-  /* SWITCH F R U S T R A T I N G E X P E R I E N C E */
+
+  componentDidMount() {
+    this.props.dispatch(actions.getUsers());
+  }
+
+  cardClick = id => {
+    this.props.dispatch(actions.getAlbums(id));
+    // to prevent recursive urls like /album/album/...
+    if (!this.props.location.pathname.startsWith("/album")) {
+      this.props.history.push("album/" + id);
+    }
+  };
+
+  handleAlbumClick = id => {
+    this.props.dispatch(actions.getPhotos(id));
+  };
+
   render() {
     return (
       <div className="App">
@@ -20,33 +39,36 @@ class App extends Component {
           <Route
             exact
             path="/"
-            children={<UserList onClick={this.cardClick} />}
+            children={
+              <UserList onClick={this.cardClick} items={this.props.users} />
+            }
           />
           {/* user id */}
           <Route
             path="/album/:id"
-            children={match => {
-              console.log(match);
-              return (
-                <div>
-                  <Link to="/">Home</Link>
-                  <UserAlbums />
-                </div>
-              );
-            }}
+            children={
+              <div>
+                <Link to="/">Home</Link>
+                <UserAlbums
+                  onMount={this.cardClick}
+                  onClick={this.handleAlbumClick}
+                  items={this.props.albums}
+                />
+              </div>
+            }
           />
           {/* album id */}
           <Route
             path="/thumb/:id"
-            children={match => {
-              console.log(match);
-              return (
-                <div>
-                  <Link to="/">Home</Link>
-                  <UserPhotos />
-                </div>
-              );
-            }}
+            children={
+              <div>
+                <Link to="/">Home</Link>
+                <UserPhotos
+                  onMount={this.handleAlbumClick}
+                  items={this.props.photos}
+                />
+              </div>
+            }
           />
         </Switch>
       </div>
@@ -54,4 +76,13 @@ class App extends Component {
   }
 }
 
-export default withRouter(App);
+export default withRouter(
+  connect(({ albums, current, ...data }) => {
+    // eslint-disable-next-line eqeqeq
+    const curAlbums = albums.filter(album => album.userId == current.userId);
+    return {
+      albums: curAlbums,
+      ...data
+    };
+  })(App)
+);
